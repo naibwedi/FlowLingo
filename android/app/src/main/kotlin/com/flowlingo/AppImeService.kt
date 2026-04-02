@@ -15,7 +15,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class KeyLingoIME : InputMethodService() {
+class AppImeService : InputMethodService() {
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private val targetLanguage = "am"
 
@@ -29,7 +29,7 @@ class KeyLingoIME : InputMethodService() {
 
     override fun onCreate() {
         super.onCreate()
-        translationChannel = TranslationChannel(KeyLingoEngineHolder.getOrCreate(application))
+        translationChannel = TranslationChannel(AppEngineHolder.getOrCreate(application))
     }
 
     override fun onCreateInputView(): View {

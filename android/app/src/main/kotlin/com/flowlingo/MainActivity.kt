@@ -6,6 +6,6 @@ import io.flutter.embedding.engine.FlutterEngine
 
 class MainActivity : FlutterActivity() {
     override fun provideFlutterEngine(context: Context): FlutterEngine {
-        return KeyLingoEngineHolder.getOrCreate(application)
+        return AppEngineHolder.getOrCreate(application)
     }
 }

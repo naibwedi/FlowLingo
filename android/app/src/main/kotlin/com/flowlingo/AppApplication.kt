@@ -6,14 +6,14 @@ import io.flutter.embedding.engine.dart.DartExecutor
 import io.flutter.embedding.engine.loader.FlutterLoader
 import io.flutter.embedding.engine.plugins.util.GeneratedPluginRegister
 
-class KeyLingoApplication : Application() {
+class AppApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-        KeyLingoEngineHolder.getOrCreate(this)
+        AppEngineHolder.getOrCreate(this)
     }
 }
 
-object KeyLingoEngineHolder {
+object AppEngineHolder {
     @Volatile
     private var engine: FlutterEngine? = null
 

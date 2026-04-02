@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flowlingo/l10n/generated/app_localizations.dart';
 import 'package:flowlingo/ui/onboarding_screen.dart';
 
-const MethodChannel _translationChannel = MethodChannel('com.keylingo/translation');
+const MethodChannel _translationChannel = MethodChannel('com.app.translation');
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

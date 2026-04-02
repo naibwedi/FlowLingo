@@ -49,7 +49,7 @@ class TranslationChannel(engine: FlutterEngine) {
         }
 
     companion object {
-        const val CHANNEL_NAME = "com.keylingo/translation"
+        const val CHANNEL_NAME = "com.app.translation"
         const val METHOD_TRANSLATE = "translate"
     }
 }
