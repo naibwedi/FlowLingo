@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="apply_translation">Apply</string>
-    <string name="key_backspace_short">⌫</string>
+    <string name="key_backspace_short">Del</string>
     <string name="key_space_short">space</string>
     <string name="key_shift">Shift</string>
     <string name="key_shift_on">Shift On</string>
+    <string name="key_caps_lock">Caps Lock</string>
     <string name="key_symbols">\?123</string>
     <string name="key_letters">ABC</string>
     <string name="key_enter">Enter</string>
@@ -14,7 +15,13 @@
     <string name="key_search">Search</string>
     <string name="key_send">Send</string>
     <string name="keyboard_display_name">Translation Keyboard</string>
-    <string name="translation_idle">Type to preview a mock translation.</string>
-    <string name="translation_pending">Preparing mock translation...</string>
-    <string name="translation_error">Mock translation unavailable.</string>
+    <string name="translation_idle">Pause after typing to see your draft preview.</string>
+    <string name="translation_pending">Building a %1$s draft...</string>
+    <string name="translation_ready">%2$s</string>
+    <string name="translation_error">Preview unavailable right now. Keep typing or try again.</string>
+    <string name="preview_status_idle">Preview idle</string>
+    <string name="preview_status_pending">Drafting %1$s</string>
+    <string name="preview_status_ready">%1$s draft ready</string>
+    <string name="preview_status_error">Preview unavailable</string>
+    <string name="active_pair_format">%1$s -> %2$s</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.flowlingo
 
+import android.content.Context
 import android.inputmethodservice.InputMethodService
 import android.view.MotionEvent
 import android.view.View
@@ -18,10 +19,11 @@ import kotlinx.coroutines.launch
 
 class AppImeService : InputMethodService() {
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
-    private val targetLanguage = "am"
 
     private lateinit var translationChannel: TranslationChannel
     private lateinit var suggestionTextView: TextView
+    private lateinit var pairIndicatorTextView: TextView
+    private lateinit var statusTextView: TextView
     private lateinit var applyButton: Button
     private lateinit var shiftButton: Button
     private lateinit var symbolsButton: Button
@@ -32,8 +34,9 @@ class AppImeService : InputMethodService() {
     private var translatedCandidate: String? = null
     private var debounceJob: Job? = null
     private var backspaceRepeatJob: Job? = null
-    private var isShiftEnabled = false
+    private var shiftState = ShiftState.OFF
     private var isSymbolsMode = false
+    private var targetLanguage = "am"
 
     override fun onCreate() {
         super.onCreate()
@@ -43,6 +46,8 @@ class AppImeService : InputMethodService() {
     override fun onCreateInputView(): View {
         val view = layoutInflater.inflate(R.layout.keyboard_view, null)
         suggestionTextView = view.findViewById(R.id.translationSuggestion)
+        pairIndicatorTextView = view.findViewById(R.id.activeLanguagePair)
+        statusTextView = view.findViewById(R.id.previewStatus)
         applyButton = view.findViewById(R.id.applyTranslationButton)
         shiftButton = view.findViewById(R.id.keyShift)
         symbolsButton = view.findViewById(R.id.keySymbols)
@@ -51,6 +56,7 @@ class AppImeService : InputMethodService() {
 
         bindCharacterKeys()
         bindSpecialKeys(view)
+        refreshLanguagePair()
         renderIdleState()
         refreshKeyboardState()
 
@@ -59,6 +65,7 @@ class AppImeService : InputMethodService() {
 
     override fun onStartInputView(info: EditorInfo?, restarting: Boolean) {
         super.onStartInputView(info, restarting)
+        refreshLanguagePair()
         resetSessionState()
         updateEnterKeyLabel(info)
     }
@@ -84,14 +91,11 @@ class AppImeService : InputMethodService() {
     }
 
     private fun bindSpecialKeys(root: View) {
-        shiftButton.setOnClickListener {
-            isShiftEnabled = !isShiftEnabled
-            refreshKeyboardState()
-        }
+        shiftButton.setOnClickListener { advanceShiftState() }
 
         symbolsButton.setOnClickListener {
             isSymbolsMode = !isSymbolsMode
-            isShiftEnabled = false
+            shiftState = ShiftState.OFF
             refreshKeyboardState()
         }
 
@@ -129,8 +133,8 @@ class AppImeService : InputMethodService() {
         renderPendingState()
         scheduleTranslation()
 
-        if (isShiftEnabled && !isSymbolsMode && value.any { it.isLetter() }) {
-            isShiftEnabled = false
+        if (shiftState == ShiftState.ONCE && !isSymbolsMode && value.any { it.isLetter() }) {
+            shiftState = ShiftState.OFF
             refreshKeyboardState()
         }
     }
@@ -184,10 +188,19 @@ class AppImeService : InputMethodService() {
 
             if (response.isSuccess && !response.translatedText.isNullOrBlank()) {
                 translatedCandidate = response.translatedText
-                suggestionTextView.text = response.translatedText
+                statusTextView.text = getString(
+                    R.string.preview_status_ready,
+                    response.targetLang.uppercase(),
+                )
+                suggestionTextView.text = getString(
+                    R.string.translation_ready,
+                    response.targetLang.uppercase(),
+                    response.translatedText,
+                )
                 applyButton.isEnabled = true
             } else {
                 translatedCandidate = null
+                statusTextView.text = getString(R.string.preview_status_error)
                 suggestionTextView.text = getString(R.string.translation_error)
                 applyButton.isEnabled = false
             }
@@ -199,7 +212,15 @@ class AppImeService : InputMethodService() {
         val inputConnection = currentInputConnection ?: return
         replaceBufferedText(inputConnection, translation)
         currentBuffer = StringBuilder(translation)
-        suggestionTextView.text = translation
+        statusTextView.text = getString(
+            R.string.preview_status_ready,
+            targetLanguage.uppercase(),
+        )
+        suggestionTextView.text = getString(
+            R.string.translation_ready,
+            targetLanguage.uppercase(),
+            translation,
+        )
         applyButton.isEnabled = true
     }
 
@@ -216,13 +237,16 @@ class AppImeService : InputMethodService() {
             button.text = resolveKeyLabel(spec)
         }
 
-        shiftButton.isSelected = isShiftEnabled
-        shiftButton.text = if (isShiftEnabled) {
-            getString(R.string.key_shift_on)
-        } else {
-            getString(R.string.key_shift)
+        shiftButton.isSelected = shiftState == ShiftState.ONCE
+        shiftButton.isActivated = shiftState == ShiftState.CAPS_LOCK
+        shiftButton.text = when (shiftState) {
+            ShiftState.OFF -> getString(R.string.key_shift)
+            ShiftState.ONCE -> getString(R.string.key_shift_on)
+            ShiftState.CAPS_LOCK -> getString(R.string.key_caps_lock)
         }
 
+        symbolsButton.isSelected = isSymbolsMode
+        symbolsButton.isActivated = false
         symbolsButton.text = if (isSymbolsMode) {
             getString(R.string.key_letters)
         } else {
@@ -235,19 +259,24 @@ class AppImeService : InputMethodService() {
         translatedCandidate = null
         debounceJob?.cancel()
         backspaceRepeatJob?.cancel()
-        isShiftEnabled = false
+        shiftState = ShiftState.OFF
         isSymbolsMode = false
         renderIdleState()
         refreshKeyboardState()
     }
 
     private fun renderIdleState() {
+        statusTextView.text = getString(R.string.preview_status_idle)
         suggestionTextView.text = getString(R.string.translation_idle)
         applyButton.isEnabled = false
     }
 
     private fun renderPendingState() {
-        suggestionTextView.text = getString(R.string.translation_pending)
+        statusTextView.text = getString(
+            R.string.preview_status_pending,
+            targetLanguage.uppercase(),
+        )
+        suggestionTextView.text = getString(R.string.translation_pending, targetLanguage.uppercase())
         applyButton.isEnabled = false
     }
 
@@ -263,22 +292,21 @@ class AppImeService : InputMethodService() {
     }
 
     private fun resolveKeyLabel(spec: String): String {
-        val primary = spec.substringBefore('|')
-        val alternate = spec.substringAfter('|', primary)
-        val displayValue = if (isSymbolsMode) alternate else primary
+        val values = spec.split('|')
+        val letter = values.getOrElse(0) { "" }
+        val primarySymbol = values.getOrElse(1) { letter }
+        val secondarySymbol = values.getOrElse(2) { primarySymbol }
 
-        return if (!isSymbolsMode && isShiftEnabled) {
-            displayValue.uppercase()
-        } else {
-            displayValue
+        return when {
+            isSymbolsMode && shiftState == ShiftState.CAPS_LOCK -> secondarySymbol
+            isSymbolsMode -> primarySymbol
+            shiftState != ShiftState.OFF -> letter.uppercase()
+            else -> letter
         }
     }
 
     private fun resolveKeyValue(spec: String): String {
-        val label = resolveKeyLabel(spec)
-        return if (isSymbolsMode) label else label.lowercase().let {
-            if (isShiftEnabled) label else it
-        }
+        return resolveKeyLabel(spec)
     }
 
     private fun collectCharacterButtons(root: View): List<Button> {
@@ -315,5 +343,39 @@ class AppImeService : InputMethodService() {
     private fun stopBackspaceRepeat() {
         backspaceRepeatJob?.cancel()
         backspaceRepeatJob = null
+    }
+
+    private fun refreshLanguagePair() {
+        val preferences = getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
+        val storedPair = preferences.getString(SELECTED_PAIR_KEY, DEFAULT_PAIR)
+        val pairParts = storedPair?.split(':').orEmpty()
+        val source = pairParts.getOrNull(0)?.uppercase() ?: "EN"
+        targetLanguage = pairParts.getOrNull(1) ?: "am"
+        pairIndicatorTextView.text = getString(
+            R.string.active_pair_format,
+            source,
+            targetLanguage.uppercase(),
+        )
+    }
+
+    private fun advanceShiftState() {
+        shiftState = when (shiftState) {
+            ShiftState.OFF -> ShiftState.ONCE
+            ShiftState.ONCE -> ShiftState.CAPS_LOCK
+            ShiftState.CAPS_LOCK -> ShiftState.OFF
+        }
+        refreshKeyboardState()
+    }
+
+    private enum class ShiftState {
+        OFF,
+        ONCE,
+        CAPS_LOCK,
+    }
+
+    companion object {
+        private const val PREFERENCES_NAME = "FlutterSharedPreferences"
+        private const val SELECTED_PAIR_KEY = "flutter.selected_language_pair"
+        private const val DEFAULT_PAIR = "en:am"
     }
 }

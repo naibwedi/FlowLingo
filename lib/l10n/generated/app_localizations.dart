@@ -104,22 +104,76 @@ abstract class AppLocalizations {
   /// **'FlowLingo'**
   String get appTitle;
 
+  /// No description provided for @onboardingEyebrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Android translation keyboard'**
+  String get onboardingEyebrow;
+
   /// No description provided for @onboardingTitle.
   ///
   /// In en, this message translates to:
-  /// **'Translate while you type'**
+  /// **'Translate while you type.'**
   String get onboardingTitle;
 
   /// No description provided for @onboardingBody.
   ///
   /// In en, this message translates to:
-  /// **'FlowLingo helps you draft translated messages before you send them.'**
+  /// **'FlowLingo gives your next message a translation-ready draft before you send it, with a calm keyboard surface built for everyday chat.'**
   String get onboardingBody;
+
+  /// No description provided for @onboardingSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What the first release is built to do'**
+  String get onboardingSectionTitle;
+
+  /// No description provided for @onboardingFeatureOneTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Stay in the conversation'**
+  String get onboardingFeatureOneTitle;
+
+  /// No description provided for @onboardingFeatureOneBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Type inside your usual apps without copy-paste or app switching.'**
+  String get onboardingFeatureOneBody;
+
+  /// No description provided for @onboardingFeatureTwoTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview before you commit'**
+  String get onboardingFeatureTwoTitle;
+
+  /// No description provided for @onboardingFeatureTwoBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Watch a translated draft appear above the keyboard, then apply it when it looks right.'**
+  String get onboardingFeatureTwoBody;
+
+  /// No description provided for @onboardingFeatureThreeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Start simple, stay fast'**
+  String get onboardingFeatureThreeTitle;
+
+  /// No description provided for @onboardingFeatureThreeBody.
+  ///
+  /// In en, this message translates to:
+  /// **'English QWERTY input, focused language pairs, and lightweight controls keep the experience clear.'**
+  String get onboardingFeatureThreeBody;
+
+  /// No description provided for @onboardingFooter.
+  ///
+  /// In en, this message translates to:
+  /// **'Next step: choose your active language pair, then enable the keyboard from Android settings.'**
+  String get onboardingFooter;
 
   /// No description provided for @onboardingButton.
   ///
   /// In en, this message translates to:
-  /// **'Get started'**
+  /// **'Open settings'**
   String get onboardingButton;
 
   /// No description provided for @settingsTitle.
@@ -128,10 +182,70 @@ abstract class AppLocalizations {
   /// **'Settings'**
   String get settingsTitle;
 
+  /// No description provided for @settingsIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Set the active language pair for the keyboard, confirm what the preview will target, and keep the first-use flow easy to follow.'**
+  String get settingsIntro;
+
+  /// No description provided for @settingsActivePairEyebrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Current pair'**
+  String get settingsActivePairEyebrow;
+
+  /// No description provided for @settingsActivePairBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The keyboard reads this selection when it opens, so your preview and apply action stay aligned with the app.'**
+  String get settingsActivePairBody;
+
+  /// No description provided for @settingsLanguageSectionEyebrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Language pair'**
+  String get settingsLanguageSectionEyebrow;
+
+  /// No description provided for @settingsLanguageSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose what the keyboard should target'**
+  String get settingsLanguageSectionTitle;
+
+  /// No description provided for @settingsLanguageSectionBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This selection is stored locally and reused the next time the keyboard opens.'**
+  String get settingsLanguageSectionBody;
+
+  /// No description provided for @settingsKeyboardEyebrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Keyboard setup'**
+  String get settingsKeyboardEyebrow;
+
+  /// No description provided for @settingsKeyboardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable the keyboard in Android'**
+  String get settingsKeyboardTitle;
+
+  /// No description provided for @settingsKeyboardBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Android keyboard settings, turn on Translation Keyboard, then switch to it inside any text field to test the live preview.'**
+  String get settingsKeyboardBody;
+
+  /// No description provided for @settingsKeyboardFootnote.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing you type is stored in the app. The keyboard only keeps in-memory draft text while the current field is active.'**
+  String get settingsKeyboardFootnote;
+
   /// No description provided for @settingsPlaceholder.
   ///
   /// In en, this message translates to:
-  /// **'Language, keyboard, and subscription controls will appear here.'**
+  /// **'Subscription controls and provider setup will be added after the keyboard flow is finalized.'**
   String get settingsPlaceholder;
 
   /// No description provided for @targetLanguageLabel.
@@ -139,6 +253,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Target language'**
   String get targetLanguageLabel;
+
+  /// No description provided for @languagePickerHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Select the pair the keyboard should preview'**
+  String get languagePickerHint;
+
+  /// No description provided for @languagePickerBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Switching this setting updates the keyboard\'s active target on the next input session.'**
+  String get languagePickerBody;
 }
 
 class _AppLocalizationsDelegate

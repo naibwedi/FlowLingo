@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#ECE6D9"
+    android:background="@color/keyboard_canvas"
     android:orientation="vertical"
     android:paddingStart="8dp"
     android:paddingTop="8dp"
@@ -12,50 +12,81 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:background="@android:color/white"
-        android:gravity="center_vertical"
-        android:minHeight="52dp"
-        android:orientation="horizontal"
+        android:background="@drawable/keyboard_surface_background"
+        android:orientation="vertical"
         android:paddingStart="12dp"
-        android:paddingTop="10dp"
+        android:paddingTop="12dp"
         android:paddingEnd="12dp"
-        android:paddingBottom="10dp">
+        android:paddingBottom="12dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/activeLanguagePair"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/keyboard_pair_chip_background"
+                android:paddingStart="12dp"
+                android:paddingTop="6dp"
+                android:paddingEnd="12dp"
+                android:paddingBottom="6dp"
+                android:textColor="@color/keyboard_ink"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/previewStatus"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:textColor="@color/keyboard_muted"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/translationSuggestion"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="#17352C" />
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:minHeight="42dp"
+            android:textColor="@color/keyboard_ink"
+            android:textSize="17sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/applyTranslationButton"
-            android:layout_width="wrap_content"
-            android:layout_height="44dp"
+            style="@style/KeyboardActionButton"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
             android:enabled="false"
-            android:paddingStart="14dp"
-            android:paddingEnd="14dp"
             android:text="@string/apply_translation" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:gravity="center"
         android:orientation="horizontal">
 
-        <Button android:layout_width="0dp" android:layout_height="52dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="q|1" android:text="q" />
-        <Button android:layout_width="0dp" android:layout_height="52dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="w|2" android:text="w" />
-        <Button android:layout_width="0dp" android:layout_height="52dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="e|3" android:text="e" />
-        <Button android:layout_width="0dp" android:layout_height="52dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="r|4" android:text="r" />
-        <Button android:layout_width="0dp" android:layout_height="52dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="t|5" android:text="t" />
-        <Button android:layout_width="0dp" android:layout_height="52dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="y|6" android:text="y" />
-        <Button android:layout_width="0dp" android:layout_height="52dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="u|7" android:text="u" />
-        <Button android:layout_width="0dp" android:layout_height="52dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="i|8" android:text="i" />
-        <Button android:layout_width="0dp" android:layout_height="52dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="o|9" android:text="o" />
-        <Button android:layout_width="0dp" android:layout_height="52dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="p|0" android:text="p" />
+        <Button style="@style/KeyboardKeyButton" android:layout_width="0dp" android:layout_height="54dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="q|1|[" android:text="q" />
+        <Button style="@style/KeyboardKeyButton" android:layout_width="0dp" android:layout_height="54dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="w|2|]" android:text="w" />
+        <Button style="@style/KeyboardKeyButton" android:layout_width="0dp" android:layout_height="54dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="e|3|{" android:text="e" />
+        <Button style="@style/KeyboardKeyButton" android:layout_width="0dp" android:layout_height="54dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="r|4|}" android:text="r" />
+        <Button style="@style/KeyboardKeyButton" android:layout_width="0dp" android:layout_height="54dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="t|5|#" android:text="t" />
+        <Button style="@style/KeyboardKeyButton" android:layout_width="0dp" android:layout_height="54dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="y|6|%" android:text="y" />
+        <Button style="@style/KeyboardKeyButton" android:layout_width="0dp" android:layout_height="54dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="u|7|^" android:text="u" />
+        <Button style="@style/KeyboardKeyButton" android:layout_width="0dp" android:layout_height="54dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="i|8|*" android:text="i" />
+        <Button style="@style/KeyboardKeyButton" android:layout_width="0dp" android:layout_height="54dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="o|9|+" android:text="o" />
+        <Button style="@style/KeyboardKeyButton" android:layout_width="0dp" android:layout_height="54dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="p|0|=" android:text="p" />
     </LinearLayout>
 
     <LinearLayout
@@ -64,17 +95,17 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-        <Space android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="0.4" />
-        <Button android:layout_width="0dp" android:layout_height="52dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="a|@" android:text="a" />
-        <Button android:layout_width="0dp" android:layout_height="52dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="s|#" android:text="s" />
-        <Button android:layout_width="0dp" android:layout_height="52dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="d|$" android:text="d" />
-        <Button android:layout_width="0dp" android:layout_height="52dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="f|%" android:text="f" />
-        <Button android:layout_width="0dp" android:layout_height="52dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="g|&amp;" android:text="g" />
-        <Button android:layout_width="0dp" android:layout_height="52dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="h|*" android:text="h" />
-        <Button android:layout_width="0dp" android:layout_height="52dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="j|(" android:text="j" />
-        <Button android:layout_width="0dp" android:layout_height="52dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="k|)" android:text="k" />
-        <Button android:layout_width="0dp" android:layout_height="52dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="l|/" android:text="l" />
-        <Space android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="0.4" />
+        <Space android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="0.35" />
+        <Button style="@style/KeyboardKeyButton" android:layout_width="0dp" android:layout_height="54dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="a|@|_" android:text="a" />
+        <Button style="@style/KeyboardKeyButton" android:layout_width="0dp" android:layout_height="54dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="s|/|\\" android:text="s" />
+        <Button style="@style/KeyboardKeyButton" android:layout_width="0dp" android:layout_height="54dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="d|(|&lt;" android:text="d" />
+        <Button style="@style/KeyboardKeyButton" android:layout_width="0dp" android:layout_height="54dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="f|)|&gt;" android:text="f" />
+        <Button style="@style/KeyboardKeyButton" android:layout_width="0dp" android:layout_height="54dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="g|&amp;|~" android:text="g" />
+        <Button style="@style/KeyboardKeyButton" android:layout_width="0dp" android:layout_height="54dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="h|-|`" android:text="h" />
+        <Button style="@style/KeyboardKeyButton" android:layout_width="0dp" android:layout_height="54dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="j|'|:" android:text="j" />
+        <Button style="@style/KeyboardKeyButton" android:layout_width="0dp" android:layout_height="54dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="k|&quot;|;" android:text="k" />
+        <Button style="@style/KeyboardKeyButton" android:layout_width="0dp" android:layout_height="54dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="l|!|?" android:text="l" />
+        <Space android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="0.35" />
     </LinearLayout>
 
     <LinearLayout
@@ -85,26 +116,28 @@
 
         <Button
             android:id="@+id/keyShift"
+            style="@style/KeyboardUtilityButton"
             android:layout_width="0dp"
-            android:layout_height="52dp"
+            android:layout_height="54dp"
             android:layout_margin="3dp"
-            android:layout_weight="1.4"
+            android:layout_weight="1.6"
             android:text="@string/key_shift" />
 
-        <Button android:layout_width="0dp" android:layout_height="52dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="z|&quot;" android:text="z" />
-        <Button android:layout_width="0dp" android:layout_height="52dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="x|'" android:text="x" />
-        <Button android:layout_width="0dp" android:layout_height="52dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="c|:" android:text="c" />
-        <Button android:layout_width="0dp" android:layout_height="52dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="v|;" android:text="v" />
-        <Button android:layout_width="0dp" android:layout_height="52dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="b|!" android:text="b" />
-        <Button android:layout_width="0dp" android:layout_height="52dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="n|?" android:text="n" />
-        <Button android:layout_width="0dp" android:layout_height="52dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="m|-" android:text="m" />
+        <Button style="@style/KeyboardKeyButton" android:layout_width="0dp" android:layout_height="54dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="z|,|." android:text="z" />
+        <Button style="@style/KeyboardKeyButton" android:layout_width="0dp" android:layout_height="54dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="x|?|/" android:text="x" />
+        <Button style="@style/KeyboardKeyButton" android:layout_width="0dp" android:layout_height="54dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="c|:|!" android:text="c" />
+        <Button style="@style/KeyboardKeyButton" android:layout_width="0dp" android:layout_height="54dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="v|;|&quot;" android:text="v" />
+        <Button style="@style/KeyboardKeyButton" android:layout_width="0dp" android:layout_height="54dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="b|$|#" android:text="b" />
+        <Button style="@style/KeyboardKeyButton" android:layout_width="0dp" android:layout_height="54dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="n|*|_" android:text="n" />
+        <Button style="@style/KeyboardKeyButton" android:layout_width="0dp" android:layout_height="54dp" android:layout_margin="3dp" android:layout_weight="1" android:tag="m|+|=" android:text="m" />
 
         <Button
             android:id="@+id/keyBackspace"
+            style="@style/KeyboardUtilityButton"
             android:layout_width="0dp"
-            android:layout_height="52dp"
+            android:layout_height="54dp"
             android:layout_margin="3dp"
-            android:layout_weight="1.6"
+            android:layout_weight="1.8"
             android:text="@string/key_backspace_short" />
     </LinearLayout>
 
@@ -116,42 +149,47 @@
 
         <Button
             android:id="@+id/keySymbols"
+            style="@style/KeyboardUtilityButton"
             android:layout_width="0dp"
-            android:layout_height="52dp"
+            android:layout_height="54dp"
             android:layout_margin="3dp"
-            android:layout_weight="1.3"
+            android:layout_weight="1.45"
             android:text="@string/key_symbols" />
 
         <Button
+            style="@style/KeyboardKeyButton"
             android:layout_width="0dp"
-            android:layout_height="52dp"
+            android:layout_height="54dp"
             android:layout_margin="3dp"
             android:layout_weight="1"
-            android:tag=",|,"
+            android:tag=",|,|&lt;"
             android:text="," />
 
         <Button
             android:id="@+id/keySpace"
+            style="@style/KeyboardKeyButton"
             android:layout_width="0dp"
-            android:layout_height="52dp"
+            android:layout_height="54dp"
             android:layout_margin="3dp"
-            android:layout_weight="4.4"
+            android:layout_weight="4.3"
             android:text="@string/key_space_short" />
 
         <Button
+            style="@style/KeyboardKeyButton"
             android:layout_width="0dp"
-            android:layout_height="52dp"
+            android:layout_height="54dp"
             android:layout_margin="3dp"
             android:layout_weight="1"
-            android:tag=".|."
+            android:tag=".|.|&gt;"
             android:text="." />
 
         <Button
             android:id="@+id/keyEnter"
+            style="@style/KeyboardActionButton"
             android:layout_width="0dp"
-            android:layout_height="52dp"
+            android:layout_height="54dp"
             android:layout_margin="3dp"
-            android:layout_weight="1.5"
+            android:layout_weight="1.7"
             android:text="@string/key_enter" />
     </LinearLayout>
 </LinearLayout>

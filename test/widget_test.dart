@@ -6,6 +6,8 @@ void main() {
     await tester.pumpWidget(const FlowLingoApp());
     await tester.pumpAndSettle();
 
-    expect(find.text('Translate while you type'), findsOneWidget);
+    expect(find.text('FlowLingo'), findsOneWidget);
+    expect(find.text('Translate while you type.'), findsOneWidget);
+    expect(find.text('Open settings'), findsOneWidget);
   });
 }
