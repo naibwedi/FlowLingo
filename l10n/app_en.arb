@@ -1,0 +1,10 @@
+{
+  "@@locale": "en",
+  "appTitle": "FlowLingo",
+  "onboardingTitle": "Translate while you type",
+  "onboardingBody": "FlowLingo helps you draft translated messages before you send them.",
+  "onboardingButton": "Get started",
+  "settingsTitle": "Settings",
+  "settingsPlaceholder": "Language, keyboard, and subscription controls will appear here.",
+  "targetLanguageLabel": "Target language"
+}

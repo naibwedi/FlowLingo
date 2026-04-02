@@ -1,0 +1,10 @@
+{
+  "@@locale": "am",
+  "appTitle": "ፍሎሊንጎ",
+  "onboardingTitle": "ሲጽፉ በቅጽበት ይተርጉሙ",
+  "onboardingBody": "ፍሎሊንጎ መልዕክትዎን ከመላክዎ በፊት በተተረጎመ መልኩ እንዲያዘጋጁ ይረዳዎታል።",
+  "onboardingButton": "ጀምር",
+  "settingsTitle": "ቅንብሮች",
+  "settingsPlaceholder": "የቋንቋ፣ የቁልፍ ሰሌዳ እና የደንበኝነት መቆጣጠሪያዎች እዚህ ይታያሉ።",
+  "targetLanguageLabel": "የመዳረሻ ቋንቋ"
+}
