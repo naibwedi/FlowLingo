@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputConnection
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -24,10 +25,10 @@ class AppImeService : InputMethodService() {
     private lateinit var suggestionTextView: TextView
     private lateinit var pairIndicatorTextView: TextView
     private lateinit var statusTextView: TextView
-    private lateinit var applyButton: Button
+    private lateinit var applyButton: ImageButton
     private lateinit var shiftButton: Button
     private lateinit var symbolsButton: Button
-    private lateinit var enterButton: Button
+    private lateinit var enterButton: ImageButton
     private lateinit var characterButtons: List<Button>
 
     private var currentBuffer = StringBuilder()
@@ -48,10 +49,10 @@ class AppImeService : InputMethodService() {
         suggestionTextView = view.findViewById(R.id.translationSuggestion)
         pairIndicatorTextView = view.findViewById(R.id.activeLanguagePair)
         statusTextView = view.findViewById(R.id.previewStatus)
-        applyButton = view.findViewById(R.id.applyTranslationButton)
+        applyButton = view.findViewById<ImageButton>(R.id.applyTranslationButton)
         shiftButton = view.findViewById(R.id.keyShift)
         symbolsButton = view.findViewById(R.id.keySymbols)
-        enterButton = view.findViewById(R.id.keyEnter)
+        enterButton = view.findViewById<ImageButton>(R.id.keyEnter)
         characterButtons = collectCharacterButtons(view)
 
         bindCharacterKeys()
@@ -67,7 +68,7 @@ class AppImeService : InputMethodService() {
         super.onStartInputView(info, restarting)
         refreshLanguagePair()
         resetSessionState()
-        updateEnterKeyLabel(info)
+        updateEnterKeyIcon(info)
     }
 
     override fun onFinishInputView(finishingInput: Boolean) {
@@ -280,15 +281,18 @@ class AppImeService : InputMethodService() {
         applyButton.isEnabled = false
     }
 
-    private fun updateEnterKeyLabel(info: EditorInfo?) {
-        enterButton.text = when (info?.imeOptions?.and(EditorInfo.IME_MASK_ACTION)) {
-            EditorInfo.IME_ACTION_GO -> getString(R.string.key_go)
-            EditorInfo.IME_ACTION_SEARCH -> getString(R.string.key_search)
-            EditorInfo.IME_ACTION_SEND -> getString(R.string.key_send)
-            EditorInfo.IME_ACTION_NEXT -> getString(R.string.key_next)
-            EditorInfo.IME_ACTION_DONE -> getString(R.string.key_done)
-            else -> getString(R.string.key_enter)
+    private fun updateEnterKeyIcon(info: EditorInfo?) {
+        val (iconRes, descriptionRes) = when (info?.imeOptions?.and(EditorInfo.IME_MASK_ACTION)) {
+            EditorInfo.IME_ACTION_SEARCH -> R.drawable.ic_keyboard_search to R.string.key_search_description
+            EditorInfo.IME_ACTION_SEND -> R.drawable.ic_keyboard_send to R.string.key_send_description
+            EditorInfo.IME_ACTION_GO,
+            EditorInfo.IME_ACTION_NEXT,
+            EditorInfo.IME_ACTION_DONE -> R.drawable.ic_keyboard_action to R.string.key_action_description
+            else -> R.drawable.ic_keyboard_enter to R.string.key_enter_description
         }
+
+        enterButton.setImageResource(iconRes)
+        enterButton.contentDescription = getString(descriptionRes)
     }
 
     private fun resolveKeyLabel(spec: String): String {

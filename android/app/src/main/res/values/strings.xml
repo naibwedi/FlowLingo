@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="apply_translation">Apply</string>
+    <string name="apply_translation_description">Apply translated preview</string>
+    <string name="spacebar_description">Insert space</string>
     <string name="key_backspace_short">Del</string>
-    <string name="key_space_short">space</string>
     <string name="key_shift">Shift</string>
     <string name="key_shift_on">Shift On</string>
     <string name="key_caps_lock">Caps Lock</string>
     <string name="key_symbols">\?123</string>
     <string name="key_letters">ABC</string>
-    <string name="key_enter">Enter</string>
-    <string name="key_done">Done</string>
-    <string name="key_go">Go</string>
-    <string name="key_next">Next</string>
-    <string name="key_search">Search</string>
-    <string name="key_send">Send</string>
+    <string name="key_search_description">Search</string>
+    <string name="key_send_description">Send</string>
+    <string name="key_enter_description">Insert new line</string>
+    <string name="key_action_description">Perform field action</string>
     <string name="keyboard_display_name">Translation Keyboard</string>
     <string name="translation_idle">Pause after typing to see your draft preview.</string>
     <string name="translation_pending">Building a %1$s draft...</string>
