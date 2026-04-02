@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="apply_translation">Apply</string>
+    <string name="key_backspace">Backspace</string>
+    <string name="key_space">Space</string>
+    <string name="keylingo_keyboard_name">KeyLingo Keyboard</string>
+    <string name="translation_idle">Type to preview a mock translation.</string>
+    <string name="translation_pending">Preparing mock translation...</string>
+    <string name="translation_error">Mock translation unavailable.</string>
+</resources>
