@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="keyboard_canvas">#E6D8C3</color>
-    <color name="keyboard_surface">#F7F1E7</color>
-    <color name="keyboard_surface_border">#D5C5AE</color>
-    <color name="keyboard_key">#FFFDFC</color>
-    <color name="keyboard_key_pressed">#EFE1CC</color>
-    <color name="keyboard_key_border">#D8C9B6</color>
-    <color name="keyboard_special_key">#D9C8AF</color>
-    <color name="keyboard_special_key_pressed">#CCB690</color>
-    <color name="keyboard_special_key_active">#6A7A5C</color>
-    <color name="keyboard_special_key_caps">#8F6136</color>
+    <color name="keyboard_canvas">#DDD2BF</color>
+    <color name="keyboard_surface">#F3EBDD</color>
+    <color name="keyboard_surface_border">#D1C0A7</color>
+    <color name="keyboard_key">#FCF8F2</color>
+    <color name="keyboard_key_pressed">#E4D2B7</color>
+    <color name="keyboard_key_border">#CDBCA2</color>
+    <color name="keyboard_special_key">#D4C1A6</color>
+    <color name="keyboard_special_key_pressed">#BEA27B</color>
+    <color name="keyboard_special_key_active">#51614A</color>
+    <color name="keyboard_special_key_caps">#7B5634</color>
     <color name="keyboard_action">#1F2622</color>
     <color name="keyboard_action_pressed">#394038</color>
     <color name="keyboard_action_disabled">#B8AC9B</color>
     <color name="keyboard_ink">#1F2622</color>
-    <color name="keyboard_muted">#67675F</color>
+    <color name="keyboard_muted">#5B5A55</color>
     <color name="keyboard_light_ink">#F8F3EA</color>
-    <color name="keyboard_pair_chip">#ECE1CF</color>
+    <color name="keyboard_pair_chip">#E7DAC5</color>
 </resources>

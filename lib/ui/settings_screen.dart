@@ -13,6 +13,8 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   LanguagePair _selectedPair = AppSettingsService.getSelectedLanguagePair();
+  bool _hapticFeedbackEnabled = AppSettingsService.isHapticFeedbackEnabled();
+  bool _soundFeedbackEnabled = AppSettingsService.isSoundFeedbackEnabled();
 
   @override
   Widget build(BuildContext context) {
@@ -92,12 +94,90 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
             ),
             const SizedBox(height: 18),
+            _SettingsPanel(
+              eyebrow: localizations.settingsFeedbackEyebrow,
+              title: localizations.settingsFeedbackTitle,
+              body: localizations.settingsFeedbackBody,
+              child: Column(
+                children: <Widget>[
+                  _FeedbackToggleRow(
+                    title: localizations.settingsHapticTitle,
+                    subtitle: localizations.settingsHapticBody,
+                    value: _hapticFeedbackEnabled,
+                    onChanged: (value) {
+                      setState(() {
+                        _hapticFeedbackEnabled = value;
+                      });
+                      AppSettingsService.saveHapticFeedbackEnabled(value);
+                    },
+                  ),
+                  const SizedBox(height: 10),
+                  _FeedbackToggleRow(
+                    title: localizations.settingsSoundTitle,
+                    subtitle: localizations.settingsSoundBody,
+                    value: _soundFeedbackEnabled,
+                    onChanged: (value) {
+                      setState(() {
+                        _soundFeedbackEnabled = value;
+                      });
+                      AppSettingsService.saveSoundFeedbackEnabled(value);
+                    },
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 18),
             Text(
               localizations.settingsPlaceholder,
               style: theme.textTheme.bodyMedium,
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _FeedbackToggleRow extends StatelessWidget {
+  const _FeedbackToggleRow({
+    required this.title,
+    required this.subtitle,
+    required this.value,
+    required this.onChanged,
+  });
+
+  final String title;
+  final String subtitle;
+  final bool value;
+  final ValueChanged<bool> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF6F0E5),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: const Color(0xFFE0D2BD)),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(title, style: theme.textTheme.titleMedium),
+                const SizedBox(height: 4),
+                Text(subtitle, style: theme.textTheme.bodyMedium),
+              ],
+            ),
+          ),
+          const SizedBox(width: 12),
+          Switch.adaptive(value: value, onChanged: onChanged),
+        ],
       ),
     );
   }

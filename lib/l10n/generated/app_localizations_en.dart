@@ -19,7 +19,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboardingBody =>
-      'FlowLingo gives your next message a translation-ready draft before you send it, with a calm keyboard surface built for everyday chat.';
+      'FlowLingo turns your next message into a polished translated draft before you send it, with a keyboard surface designed to stay calm while you type.';
 
   @override
   String get onboardingSectionTitle => 'What the first release is built to do';
@@ -57,7 +57,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsIntro =>
-      'Set the active language pair for the keyboard, confirm what the preview will target, and keep the first-use flow easy to follow.';
+      'Choose the active language pair, confirm where the keyboard will translate, and keep the first-use setup simple enough to finish in a minute.';
 
   @override
   String get settingsActivePairEyebrow => 'Current pair';
@@ -92,8 +92,32 @@ class AppLocalizationsEn extends AppLocalizations {
       'Nothing you type is stored in the app. The keyboard only keeps in-memory draft text while the current field is active.';
 
   @override
+  String get settingsFeedbackEyebrow => 'Keyboard feel';
+
+  @override
+  String get settingsFeedbackTitle => 'Tune keyboard feedback';
+
+  @override
+  String get settingsFeedbackBody =>
+      'Use subtle vibration and key-click sound only if they help the keyboard feel responsive on your device.';
+
+  @override
+  String get settingsHapticTitle => 'Haptic feedback';
+
+  @override
+  String get settingsHapticBody =>
+      'Adds a light tap sensation for key presses and preview actions.';
+
+  @override
+  String get settingsSoundTitle => 'Key sounds';
+
+  @override
+  String get settingsSoundBody =>
+      'Plays a compact click for typing, delete, space, and enter keys.';
+
+  @override
   String get settingsPlaceholder =>
-      'Subscription controls and provider setup will be added after the keyboard flow is finalized.';
+      'Subscriptions stay out of the first release. This build is focused on a stable, polished translation keyboard experience.';
 
   @override
   String get targetLanguageLabel => 'Target language';

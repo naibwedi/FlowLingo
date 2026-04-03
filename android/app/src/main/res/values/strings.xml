@@ -13,13 +13,13 @@
     <string name="key_enter_description">Insert new line</string>
     <string name="key_action_description">Perform field action</string>
     <string name="keyboard_display_name">Translation Keyboard</string>
-    <string name="translation_idle">Pause after typing to see your draft preview.</string>
-    <string name="translation_pending">Building a %1$s draft...</string>
+    <string name="translation_idle">Pause to preview the translated draft.</string>
+    <string name="translation_pending">Translating into %1$s…</string>
     <string name="translation_ready">%2$s</string>
-    <string name="translation_error">Preview unavailable right now. Keep typing or try again.</string>
-    <string name="preview_status_idle">Preview idle</string>
-    <string name="preview_status_pending">Drafting %1$s</string>
+    <string name="translation_error">Preview unavailable. Typed text stays untouched.</string>
+    <string name="preview_status_idle">Preview</string>
+    <string name="preview_status_pending">Translating %1$s</string>
     <string name="preview_status_ready">%1$s draft ready</string>
-    <string name="preview_status_error">Preview unavailable</string>
+    <string name="preview_status_error">Unavailable</string>
     <string name="active_pair_format">%1$s -> %2$s</string>
 </resources>

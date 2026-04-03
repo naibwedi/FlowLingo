@@ -20,7 +20,7 @@
         <item name="android:background">@drawable/keyboard_key_background</item>
         <item name="android:textColor">@color/keyboard_ink</item>
         <item name="android:textAllCaps">false</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">15sp</item>
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:paddingLeft">0dp</item>
         <item name="android:paddingRight">0dp</item>
@@ -30,7 +30,7 @@
     <style name="KeyboardUtilityButton" parent="@style/KeyboardKeyButton">
         <item name="android:background">@drawable/keyboard_special_key_background</item>
         <item name="android:textColor">@color/keyboard_special_key_text</item>
-        <item name="android:textSize">13sp</item>
+        <item name="android:textSize">11sp</item>
     </style>
 
     <style name="KeyboardActionButton" parent="@style/KeyboardKeyButton">
@@ -42,7 +42,7 @@
     <style name="KeyboardActionIconButton" parent="@android:style/Widget.ImageButton">
         <item name="android:background">@drawable/keyboard_action_background</item>
         <item name="android:tint">@color/keyboard_action_icon_tint</item>
-        <item name="android:padding">12dp</item>
+        <item name="android:padding">8dp</item>
         <item name="android:scaleType">centerInside</item>
         <item name="android:stateListAnimator">@null</item>
     </style>
@@ -50,6 +50,6 @@
     <style name="KeyboardCompactActionButton" parent="@style/KeyboardActionIconButton">
         <item name="android:minWidth">0dp</item>
         <item name="android:minHeight">0dp</item>
-        <item name="android:padding">9dp</item>
+        <item name="android:padding">7dp</item>
     </style>
 </resources>

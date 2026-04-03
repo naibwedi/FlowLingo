@@ -119,7 +119,7 @@ abstract class AppLocalizations {
   /// No description provided for @onboardingBody.
   ///
   /// In en, this message translates to:
-  /// **'FlowLingo gives your next message a translation-ready draft before you send it, with a calm keyboard surface built for everyday chat.'**
+  /// **'FlowLingo turns your next message into a polished translated draft before you send it, with a keyboard surface designed to stay calm while you type.'**
   String get onboardingBody;
 
   /// No description provided for @onboardingSectionTitle.
@@ -185,7 +185,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingsIntro.
   ///
   /// In en, this message translates to:
-  /// **'Set the active language pair for the keyboard, confirm what the preview will target, and keep the first-use flow easy to follow.'**
+  /// **'Choose the active language pair, confirm where the keyboard will translate, and keep the first-use setup simple enough to finish in a minute.'**
   String get settingsIntro;
 
   /// No description provided for @settingsActivePairEyebrow.
@@ -242,10 +242,52 @@ abstract class AppLocalizations {
   /// **'Nothing you type is stored in the app. The keyboard only keeps in-memory draft text while the current field is active.'**
   String get settingsKeyboardFootnote;
 
+  /// No description provided for @settingsFeedbackEyebrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Keyboard feel'**
+  String get settingsFeedbackEyebrow;
+
+  /// No description provided for @settingsFeedbackTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tune keyboard feedback'**
+  String get settingsFeedbackTitle;
+
+  /// No description provided for @settingsFeedbackBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Use subtle vibration and key-click sound only if they help the keyboard feel responsive on your device.'**
+  String get settingsFeedbackBody;
+
+  /// No description provided for @settingsHapticTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Haptic feedback'**
+  String get settingsHapticTitle;
+
+  /// No description provided for @settingsHapticBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Adds a light tap sensation for key presses and preview actions.'**
+  String get settingsHapticBody;
+
+  /// No description provided for @settingsSoundTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Key sounds'**
+  String get settingsSoundTitle;
+
+  /// No description provided for @settingsSoundBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Plays a compact click for typing, delete, space, and enter keys.'**
+  String get settingsSoundBody;
+
   /// No description provided for @settingsPlaceholder.
   ///
   /// In en, this message translates to:
-  /// **'Subscription controls and provider setup will be added after the keyboard flow is finalized.'**
+  /// **'Subscriptions stay out of the first release. This build is focused on a stable, polished translation keyboard experience.'**
   String get settingsPlaceholder;
 
   /// No description provided for @targetLanguageLabel.

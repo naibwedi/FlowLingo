@@ -2,7 +2,10 @@ package com.flowlingo
 
 import android.content.Context
 import android.inputmethodservice.InputMethodService
+import android.os.SystemClock
+import android.view.HapticFeedbackConstants
 import android.view.MotionEvent
+import android.view.SoundEffectConstants
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
@@ -30,6 +33,7 @@ class AppImeService : InputMethodService() {
     private lateinit var symbolsButton: Button
     private lateinit var enterButton: ImageButton
     private lateinit var characterButtons: List<Button>
+    private lateinit var feedbackAnchorView: View
 
     private var currentBuffer = StringBuilder()
     private var translatedCandidate: String? = null
@@ -38,6 +42,9 @@ class AppImeService : InputMethodService() {
     private var shiftState = ShiftState.OFF
     private var isSymbolsMode = false
     private var targetLanguage = "am"
+    private var isHapticFeedbackEnabled = true
+    private var isSoundFeedbackEnabled = false
+    private var lastShiftTapAt = 0L
 
     override fun onCreate() {
         super.onCreate()
@@ -46,6 +53,7 @@ class AppImeService : InputMethodService() {
 
     override fun onCreateInputView(): View {
         val view = layoutInflater.inflate(R.layout.keyboard_view, null)
+        feedbackAnchorView = view
         suggestionTextView = view.findViewById(R.id.translationSuggestion)
         pairIndicatorTextView = view.findViewById(R.id.activeLanguagePair)
         statusTextView = view.findViewById(R.id.previewStatus)
@@ -57,7 +65,7 @@ class AppImeService : InputMethodService() {
 
         bindCharacterKeys()
         bindSpecialKeys(view)
-        refreshLanguagePair()
+        refreshNativeSettings()
         renderIdleState()
         refreshKeyboardState()
 
@@ -66,7 +74,7 @@ class AppImeService : InputMethodService() {
 
     override fun onStartInputView(info: EditorInfo?, restarting: Boolean) {
         super.onStartInputView(info, restarting)
-        refreshLanguagePair()
+        refreshNativeSettings()
         resetSessionState()
         updateEnterKeyIcon(info)
     }
@@ -86,30 +94,50 @@ class AppImeService : InputMethodService() {
         characterButtons.forEach { button ->
             button.setOnClickListener {
                 val spec = button.tag as? String ?: return@setOnClickListener
+                performKeyFeedback(FeedbackType.STANDARD)
                 commitCharacter(resolveKeyValue(spec))
+            }
+            button.setOnLongClickListener {
+                val spec = button.tag as? String ?: return@setOnLongClickListener false
+                val alternateValue = resolveAlternateKeyValue(spec) ?: return@setOnLongClickListener false
+                performKeyFeedback(FeedbackType.STANDARD)
+                commitCharacter(alternateValue)
+                true
             }
         }
     }
 
     private fun bindSpecialKeys(root: View) {
-        shiftButton.setOnClickListener { advanceShiftState() }
+        shiftButton.setOnClickListener {
+            performKeyFeedback(FeedbackType.STANDARD)
+            advanceShiftState()
+        }
 
         symbolsButton.setOnClickListener {
+            performKeyFeedback(FeedbackType.STANDARD)
             isSymbolsMode = !isSymbolsMode
             shiftState = ShiftState.OFF
             refreshKeyboardState()
         }
 
-        applyButton.setOnClickListener { applyTranslation() }
-        enterButton.setOnClickListener { handleEnter() }
+        applyButton.setOnClickListener {
+            performKeyFeedback(FeedbackType.RETURN)
+            applyTranslation()
+        }
+        enterButton.setOnClickListener {
+            performKeyFeedback(FeedbackType.RETURN)
+            handleEnter()
+        }
 
         root.findViewById<Button>(R.id.keySpace).setOnClickListener {
+            performKeyFeedback(FeedbackType.SPACE)
             commitCharacter(" ")
         }
 
         root.findViewById<Button>(R.id.keyBackspace).setOnTouchListener { _, event ->
             when (event.actionMasked) {
                 MotionEvent.ACTION_DOWN -> {
+                    performKeyFeedback(FeedbackType.DELETE)
                     handleBackspace()
                     startBackspaceRepeat()
                     true
@@ -189,20 +217,20 @@ class AppImeService : InputMethodService() {
 
             if (response.isSuccess && !response.translatedText.isNullOrBlank()) {
                 translatedCandidate = response.translatedText
-                statusTextView.text = getString(
+                updatePreviewStatus(getString(
                     R.string.preview_status_ready,
                     response.targetLang.uppercase(),
-                )
-                suggestionTextView.text = getString(
+                ))
+                updatePreviewText(getString(
                     R.string.translation_ready,
                     response.targetLang.uppercase(),
                     response.translatedText,
-                )
+                ))
                 applyButton.isEnabled = true
             } else {
                 translatedCandidate = null
-                statusTextView.text = getString(R.string.preview_status_error)
-                suggestionTextView.text = getString(R.string.translation_error)
+                updatePreviewStatus(getString(R.string.preview_status_error))
+                updatePreviewText(getString(R.string.translation_error))
                 applyButton.isEnabled = false
             }
         }
@@ -213,15 +241,15 @@ class AppImeService : InputMethodService() {
         val inputConnection = currentInputConnection ?: return
         replaceBufferedText(inputConnection, translation)
         currentBuffer = StringBuilder(translation)
-        statusTextView.text = getString(
+        updatePreviewStatus(getString(
             R.string.preview_status_ready,
             targetLanguage.uppercase(),
-        )
-        suggestionTextView.text = getString(
+        ))
+        updatePreviewText(getString(
             R.string.translation_ready,
             targetLanguage.uppercase(),
             translation,
-        )
+        ))
         applyButton.isEnabled = true
     }
 
@@ -267,17 +295,17 @@ class AppImeService : InputMethodService() {
     }
 
     private fun renderIdleState() {
-        statusTextView.text = getString(R.string.preview_status_idle)
-        suggestionTextView.text = getString(R.string.translation_idle)
+        updatePreviewStatus(getString(R.string.preview_status_idle))
+        updatePreviewText(getString(R.string.translation_idle))
         applyButton.isEnabled = false
     }
 
     private fun renderPendingState() {
-        statusTextView.text = getString(
+        updatePreviewStatus(getString(
             R.string.preview_status_pending,
             targetLanguage.uppercase(),
-        )
-        suggestionTextView.text = getString(R.string.translation_pending, targetLanguage.uppercase())
+        ))
+        updatePreviewText(getString(R.string.translation_pending, targetLanguage.uppercase()))
         applyButton.isEnabled = false
     }
 
@@ -313,6 +341,15 @@ class AppImeService : InputMethodService() {
         return resolveKeyLabel(spec)
     }
 
+    private fun resolveAlternateKeyValue(spec: String): String? {
+        val values = spec.split('|')
+        return when {
+            values.size >= 3 && isSymbolsMode -> values[2]
+            values.size >= 2 && !isSymbolsMode -> values[1]
+            else -> null
+        }?.takeIf { it.isNotBlank() }
+    }
+
     private fun collectCharacterButtons(root: View): List<Button> {
         val buttons = mutableListOf<Button>()
 
@@ -336,10 +373,14 @@ class AppImeService : InputMethodService() {
     private fun startBackspaceRepeat() {
         backspaceRepeatJob?.cancel()
         backspaceRepeatJob = serviceScope.launch {
-            delay(350)
+            delay(240)
+            var repeatDelay = 70L
             while (true) {
                 handleBackspace()
-                delay(75)
+                delay(repeatDelay)
+                if (repeatDelay > 35L) {
+                    repeatDelay -= 5L
+                }
             }
         }
     }
@@ -349,12 +390,14 @@ class AppImeService : InputMethodService() {
         backspaceRepeatJob = null
     }
 
-    private fun refreshLanguagePair() {
+    private fun refreshNativeSettings() {
         val preferences = getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
         val storedPair = preferences.getString(SELECTED_PAIR_KEY, DEFAULT_PAIR)
         val pairParts = storedPair?.split(':').orEmpty()
         val source = pairParts.getOrNull(0)?.uppercase() ?: "EN"
         targetLanguage = pairParts.getOrNull(1) ?: "am"
+        isHapticFeedbackEnabled = preferences.getBoolean(HAPTIC_FEEDBACK_KEY, true)
+        isSoundFeedbackEnabled = preferences.getBoolean(SOUND_FEEDBACK_KEY, false)
         pairIndicatorTextView.text = getString(
             R.string.active_pair_format,
             source,
@@ -363,12 +406,58 @@ class AppImeService : InputMethodService() {
     }
 
     private fun advanceShiftState() {
-        shiftState = when (shiftState) {
-            ShiftState.OFF -> ShiftState.ONCE
-            ShiftState.ONCE -> ShiftState.CAPS_LOCK
-            ShiftState.CAPS_LOCK -> ShiftState.OFF
+        val now = SystemClock.elapsedRealtime()
+        shiftState = when {
+            shiftState == ShiftState.CAPS_LOCK -> ShiftState.OFF
+            now - lastShiftTapAt <= SHIFT_DOUBLE_TAP_WINDOW_MS -> ShiftState.CAPS_LOCK
+            shiftState == ShiftState.OFF -> ShiftState.ONCE
+            else -> ShiftState.OFF
         }
+        lastShiftTapAt = now
         refreshKeyboardState()
+    }
+
+    private fun performKeyFeedback(type: FeedbackType) {
+        if (isHapticFeedbackEnabled) {
+            feedbackAnchorView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
+        }
+
+        if (!isSoundFeedbackEnabled) {
+            return
+        }
+
+        feedbackAnchorView.playSoundEffect(
+            when (type) {
+                FeedbackType.STANDARD -> SoundEffectConstants.CLICK
+                FeedbackType.DELETE -> SoundEffectConstants.CLICK
+                FeedbackType.SPACE -> SoundEffectConstants.CLICK
+                FeedbackType.RETURN -> SoundEffectConstants.CLICK
+            },
+        )
+    }
+
+    private fun updatePreviewStatus(value: String) {
+        if (statusTextView.text == value) {
+            return
+        }
+
+        statusTextView.animate().cancel()
+        statusTextView.animate().alpha(0.35f).setDuration(60).withEndAction {
+            statusTextView.text = value
+            statusTextView.animate().alpha(1f).setDuration(110).start()
+        }.start()
+    }
+
+    private fun updatePreviewText(value: String) {
+        if (suggestionTextView.text == value) {
+            return
+        }
+
+        suggestionTextView.animate().cancel()
+        suggestionTextView.animate().alpha(0.5f).setDuration(70).withEndAction {
+            suggestionTextView.text = value
+            suggestionTextView.animate().alpha(1f).setDuration(130).start()
+        }.start()
     }
 
     private enum class ShiftState {
@@ -377,9 +466,19 @@ class AppImeService : InputMethodService() {
         CAPS_LOCK,
     }
 
+    private enum class FeedbackType {
+        STANDARD,
+        DELETE,
+        SPACE,
+        RETURN,
+    }
+
     companion object {
         private const val PREFERENCES_NAME = "FlutterSharedPreferences"
         private const val SELECTED_PAIR_KEY = "flutter.selected_language_pair"
+        private const val HAPTIC_FEEDBACK_KEY = "flutter.haptic_feedback_enabled"
+        private const val SOUND_FEEDBACK_KEY = "flutter.sound_feedback_enabled"
         private const val DEFAULT_PAIR = "en:am"
+        private const val SHIFT_DOUBLE_TAP_WINDOW_MS = 300L
     }
 }
