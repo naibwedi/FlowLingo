@@ -3,9 +3,11 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/services.dart';
 import 'package:flowlingo/l10n/generated/app_localizations.dart';
 import 'package:flowlingo/services/app_settings_service.dart';
+import 'package:flowlingo/services/translation_service.dart';
 import 'package:flowlingo/ui/onboarding_screen.dart';
 
 const MethodChannel _translationChannel = MethodChannel('com.app.translation');
+const TranslationService _translationService = TranslationService();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,14 +29,28 @@ Future<Map<String, String>> _handleNativeTranslationRequest(MethodCall call) asy
   if (text.isEmpty) {
     throw PlatformException(
       code: 'empty-text',
-      message: 'Text is required for mock translation.',
+      message: 'Text is required for translation.',
     );
   }
 
-  return <String, String>{
-    'translatedText': '[mock:$targetLang] $text',
-    'targetLang': targetLang,
-  };
+  try {
+    final result = await _translationService.translate(text, targetLang);
+
+    return <String, String>{
+      'translatedText': result.translatedText,
+      'targetLang': result.targetLanguage,
+    };
+  } on TranslationException catch (error) {
+    throw PlatformException(
+      code: 'translation-unavailable',
+      message: error.message,
+    );
+  } catch (_) {
+    throw PlatformException(
+      code: 'translation-unavailable',
+      message: 'Translation is temporarily unavailable.',
+    );
+  }
 }
 
 class FlowLingoApp extends StatelessWidget {
