@@ -1,39 +1,42 @@
 # FlowLingo
 
-FlowLingo is an Android-first translation keyboard built with a native Kotlin IME and a Flutter app shell. The keyboard lets users type in any Android text field, preview a translated draft above the keyboard, and apply that draft before sending.
+![FlowLingo app preview](./image.png)
 
-The current build is focused on MVP keyboard infrastructure and a live translation loop:
+FlowLingo is an Android translation keyboard built with a native Kotlin IME and a Flutter app shell. It lets users type in any Android text field, preview a translated draft above the keyboard, and apply that draft before sending.
+
+## Highlights
+
+- Translate drafts inside Android text fields
+- Preview the translated version before sending anything
+- Keep typing uninterrupted with silent fallback when translation is unavailable
+- Persist language-pair and keyboard feedback settings locally
+- Keep typed text out of local storage and logs
+
+## Current MVP
+
+Implemented:
+
 - native Android `InputMethodService` keyboard
-- Flutter onboarding and settings UI
+- Flutter onboarding, privacy, and settings screens
 - persisted language-pair selection
-- Google Cloud Translation preview over a native/Flutter bridge
+- live Google Cloud Translation preview over a native/Flutter bridge
 - polished keyboard layout with shift, caps lock, symbols, repeat backspace, and action-key icons
-- tester-facing privacy note and internal-testing docs
+- internal-testing and privacy documentation for pre-release QA
+
+Not implemented yet:
+
+- premium entitlements and paywall flow
+- offline translation
+- Play Store release assets and public policy hosting
 
 ## Stack
 
 - Android keyboard: Kotlin + `InputMethodService`
 - App UI: Flutter
 - Native bridge: `MethodChannel`
-- Local settings: Hive
-- Subscriptions: `purchases_flutter` / RevenueCat
+- Local settings: Hive + shared preferences
 - Translation backend: Google Cloud Translation API
-
-## Current State
-
-Implemented:
-- Flutter app scaffold with localization
-- onboarding screen and settings screen
-- language-pair persistence
-- native IME registration and keyboard lifecycle
-- debounced preview pipeline from native to Flutter
-- live Google translation for preview/apply
-- keyboard preview panel and production-style visual polish
-
-Not implemented yet:
-- premium entitlements and paywall flow
-- offline translation
-- Play Store release assets and public policy hosting
+- Subscriptions: `purchases_flutter` / RevenueCat
 
 ## Project Structure
 
@@ -49,6 +52,7 @@ flowlingo/
 │   ├── values/
 │   ├── drawable/
 │   └── xml/method.xml
+├── docs/
 ├── lib/
 │   ├── main.dart
 │   ├── models/
@@ -56,8 +60,7 @@ flowlingo/
 │   └── ui/
 ├── l10n/
 ├── test/
-├── CLAUDE.md
-└── CODEX_BRIEF.md
+└── README.md
 ```
 
 ## How It Works
@@ -70,6 +73,7 @@ flowlingo/
 6. The user taps the apply action to replace the typed draft with the preview.
 
 Important privacy rule:
+
 - typed text is not stored in Hive, files, or logs
 - current input only lives in memory during the active keyboard session
 
@@ -101,7 +105,7 @@ class Secrets {
 }
 ```
 
-### Run the Flutter app
+### Run the app
 
 ```powershell
 C:\flutter\bin\flutter.bat run
@@ -111,16 +115,18 @@ C:\flutter\bin\flutter.bat run
 
 1. Install and open the app on an Android emulator or phone.
 2. Open Android Settings.
-3. Go to keyboard/input settings.
+3. Go to keyboard or input settings.
 4. Enable `Translation Keyboard`.
 5. Switch to it in any text field.
 
-### Read the privacy note
+### Read the privacy and testing docs
 
 Before enabling the keyboard, testers should review:
 
 - [Privacy policy](./PRIVACY_POLICY.md)
+- [Product overview](./docs/PRODUCT_OVERVIEW.md)
 - [Internal testing guide](./docs/INTERNAL_TESTING.md)
+- [QA bug template](./docs/QA_BUG_TEMPLATE.md)
 
 The keyboard sends the current in-memory draft to Google Cloud Translation for live preview. FlowLingo does not store typed text locally.
 
@@ -160,11 +166,18 @@ C:\flutter\bin\flutter.bat build appbundle --release
 ## Secrets
 
 Do not commit:
+
 - `android/local.properties`
 - `android/key.properties`
 - `lib/config/secrets.dart`
 - signing keys / `*.jks`
 
-## Next Major Step
+## Next Step
 
 Run internal Android testing, collect onboarding and keyboard QA feedback, and fix release blockers before monetization work.
+
+For the QA pass, use:
+
+- [Product overview](./docs/PRODUCT_OVERVIEW.md)
+- [Internal testing guide](./docs/INTERNAL_TESTING.md)
+- [QA bug template](./docs/QA_BUG_TEMPLATE.md)
