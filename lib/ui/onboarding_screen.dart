@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flowlingo/l10n/generated/app_localizations.dart';
+import 'package:flowlingo/ui/privacy_screen.dart';
 import 'package:flowlingo/ui/settings_screen.dart';
 
 class OnboardingScreen extends StatelessWidget {
@@ -120,23 +121,97 @@ class OnboardingScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 28),
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(22),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.6),
+                          borderRadius: BorderRadius.circular(28),
+                          border: Border.all(color: const Color(0xFFDCCFB8)),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              localizations.onboardingSetupTitle,
+                              style: theme.textTheme.titleMedium,
+                            ),
+                            const SizedBox(height: 16),
+                            _SetupStep(
+                              index: '1',
+                              body: localizations.onboardingSetupStepOne,
+                            ),
+                            const SizedBox(height: 12),
+                            _SetupStep(
+                              index: '2',
+                              body: localizations.onboardingSetupStepTwo,
+                            ),
+                            const SizedBox(height: 12),
+                            _SetupStep(
+                              index: '3',
+                              body: localizations.onboardingSetupStepThree,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.55),
+                          borderRadius: BorderRadius.circular(24),
+                          border: Border.all(color: const Color(0xFFDCCFB8)),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              localizations.onboardingPrivacyTitle,
+                              style: theme.textTheme.titleMedium,
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              localizations.onboardingPrivacyBody,
+                              style: theme.textTheme.bodyMedium,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 20),
                       Text(
                         localizations.onboardingFooter,
                         style: theme.textTheme.bodyMedium,
                       ),
                       const SizedBox(height: 20),
-                      SizedBox(
-                        width: double.infinity,
-                        child: FilledButton(
-                          onPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute<void>(
-                                builder: (_) => const SettingsScreen(),
-                              ),
-                            );
-                          },
-                          child: Text(localizations.onboardingButton),
-                        ),
+                      Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: FilledButton(
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute<void>(
+                                    builder: (_) => const SettingsScreen(),
+                                  ),
+                                );
+                              },
+                              child: Text(localizations.onboardingButton),
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: OutlinedButton(
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute<void>(
+                                    builder: (_) => const PrivacyScreen(),
+                                  ),
+                                );
+                              },
+                              child: Text(localizations.onboardingPrivacyButton),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -146,6 +221,41 @@ class OnboardingScreen extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _SetupStep extends StatelessWidget {
+  const _SetupStep({
+    required this.index,
+    required this.body,
+  });
+
+  final String index;
+  final String body;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Container(
+          width: 28,
+          height: 28,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: const Color(0xFFEEE3D1),
+            borderRadius: BorderRadius.circular(999),
+          ),
+          child: Text(index, style: theme.textTheme.labelLarge),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Text(body, style: theme.textTheme.bodyMedium),
+        ),
+      ],
     );
   }
 }

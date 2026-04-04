@@ -46,11 +46,36 @@ class AppLocalizationsEn extends AppLocalizations {
       'English QWERTY input, focused language pairs, and lightweight controls keep the experience clear.';
 
   @override
+  String get onboardingSetupTitle => 'How to test the keyboard';
+
+  @override
+  String get onboardingSetupStepOne =>
+      'Open settings, choose the active language pair, and confirm the keyboard feel toggles you want to test.';
+
+  @override
+  String get onboardingSetupStepTwo =>
+      'Open Android keyboard settings, enable Translation Keyboard, and switch to it inside any text field.';
+
+  @override
+  String get onboardingSetupStepThree =>
+      'Type, wait for the preview after the short pause, then tap Apply only when the draft looks right.';
+
+  @override
+  String get onboardingPrivacyTitle => 'Privacy before enablement';
+
+  @override
+  String get onboardingPrivacyBody =>
+      'Live preview sends the current draft to Google Cloud Translation. FlowLingo does not store typed text locally.';
+
+  @override
   String get onboardingFooter =>
       'Next step: choose your active language pair, then enable the keyboard from Android settings.';
 
   @override
   String get onboardingButton => 'Open settings';
+
+  @override
+  String get onboardingPrivacyButton => 'Read privacy';
 
   @override
   String get settingsTitle => 'Settings';
@@ -88,8 +113,33 @@ class AppLocalizationsEn extends AppLocalizations {
       'Open Android keyboard settings, turn on Translation Keyboard, then switch to it inside any text field to test the live preview.';
 
   @override
+  String get settingsKeyboardStepOne =>
+      'Choose the target pair first so the keyboard opens with the right preview language.';
+
+  @override
+  String get settingsKeyboardStepTwo =>
+      'Enable Translation Keyboard from Android keyboard settings and accept the standard keyboard warning.';
+
+  @override
+  String get settingsKeyboardStepThree =>
+      'Switch to Translation Keyboard in a text field, type a short message, and verify preview plus Apply behavior.';
+
+  @override
   String get settingsKeyboardFootnote =>
       'Nothing you type is stored in the app. The keyboard only keeps in-memory draft text while the current field is active.';
+
+  @override
+  String get settingsPrivacyEyebrow => 'Privacy';
+
+  @override
+  String get settingsPrivacyTitle => 'Review what the keyboard sends';
+
+  @override
+  String get settingsPrivacyBody =>
+      'Internal testers should read the privacy note before enabling the keyboard or testing with real conversations.';
+
+  @override
+  String get settingsPrivacyButton => 'Open privacy note';
 
   @override
   String get settingsFeedbackEyebrow => 'Keyboard feel';
@@ -118,6 +168,34 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get settingsPlaceholder =>
       'Subscriptions stay out of the first release. This build is focused on a stable, polished translation keyboard experience.';
+
+  @override
+  String get privacyTitle => 'Privacy note';
+
+  @override
+  String get privacyIntro =>
+      'FlowLingo is built to keep draft handling minimal during internal testing. Review this before enabling the keyboard.';
+
+  @override
+  String get privacyCardOneTitle => 'What gets sent';
+
+  @override
+  String get privacyCardOneBody =>
+      'The text currently being drafted is sent to Google Cloud Translation only to build the live preview and apply result.';
+
+  @override
+  String get privacyCardTwoTitle => 'What stays local';
+
+  @override
+  String get privacyCardTwoBody =>
+      'FlowLingo stores language pair and keyboard feedback preferences, but it does not save typed drafts or translated previews.';
+
+  @override
+  String get privacyCardThreeTitle => 'How to test safely';
+
+  @override
+  String get privacyCardThreeBody =>
+      'Use sample or low-risk text during testing. Avoid sensitive personal, financial, health, or account information.';
 
   @override
   String get targetLanguageLabel => 'Target language';

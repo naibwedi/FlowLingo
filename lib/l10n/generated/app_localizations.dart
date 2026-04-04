@@ -164,6 +164,42 @@ abstract class AppLocalizations {
   /// **'English QWERTY input, focused language pairs, and lightweight controls keep the experience clear.'**
   String get onboardingFeatureThreeBody;
 
+  /// No description provided for @onboardingSetupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How to test the keyboard'**
+  String get onboardingSetupTitle;
+
+  /// No description provided for @onboardingSetupStepOne.
+  ///
+  /// In en, this message translates to:
+  /// **'Open settings, choose the active language pair, and confirm the keyboard feel toggles you want to test.'**
+  String get onboardingSetupStepOne;
+
+  /// No description provided for @onboardingSetupStepTwo.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Android keyboard settings, enable Translation Keyboard, and switch to it inside any text field.'**
+  String get onboardingSetupStepTwo;
+
+  /// No description provided for @onboardingSetupStepThree.
+  ///
+  /// In en, this message translates to:
+  /// **'Type, wait for the preview after the short pause, then tap Apply only when the draft looks right.'**
+  String get onboardingSetupStepThree;
+
+  /// No description provided for @onboardingPrivacyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy before enablement'**
+  String get onboardingPrivacyTitle;
+
+  /// No description provided for @onboardingPrivacyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Live preview sends the current draft to Google Cloud Translation. FlowLingo does not store typed text locally.'**
+  String get onboardingPrivacyBody;
+
   /// No description provided for @onboardingFooter.
   ///
   /// In en, this message translates to:
@@ -175,6 +211,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Open settings'**
   String get onboardingButton;
+
+  /// No description provided for @onboardingPrivacyButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Read privacy'**
+  String get onboardingPrivacyButton;
 
   /// No description provided for @settingsTitle.
   ///
@@ -236,11 +278,53 @@ abstract class AppLocalizations {
   /// **'Open Android keyboard settings, turn on Translation Keyboard, then switch to it inside any text field to test the live preview.'**
   String get settingsKeyboardBody;
 
+  /// No description provided for @settingsKeyboardStepOne.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the target pair first so the keyboard opens with the right preview language.'**
+  String get settingsKeyboardStepOne;
+
+  /// No description provided for @settingsKeyboardStepTwo.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable Translation Keyboard from Android keyboard settings and accept the standard keyboard warning.'**
+  String get settingsKeyboardStepTwo;
+
+  /// No description provided for @settingsKeyboardStepThree.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch to Translation Keyboard in a text field, type a short message, and verify preview plus Apply behavior.'**
+  String get settingsKeyboardStepThree;
+
   /// No description provided for @settingsKeyboardFootnote.
   ///
   /// In en, this message translates to:
   /// **'Nothing you type is stored in the app. The keyboard only keeps in-memory draft text while the current field is active.'**
   String get settingsKeyboardFootnote;
+
+  /// No description provided for @settingsPrivacyEyebrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy'**
+  String get settingsPrivacyEyebrow;
+
+  /// No description provided for @settingsPrivacyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Review what the keyboard sends'**
+  String get settingsPrivacyTitle;
+
+  /// No description provided for @settingsPrivacyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Internal testers should read the privacy note before enabling the keyboard or testing with real conversations.'**
+  String get settingsPrivacyBody;
+
+  /// No description provided for @settingsPrivacyButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Open privacy note'**
+  String get settingsPrivacyButton;
 
   /// No description provided for @settingsFeedbackEyebrow.
   ///
@@ -289,6 +373,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Subscriptions stay out of the first release. This build is focused on a stable, polished translation keyboard experience.'**
   String get settingsPlaceholder;
+
+  /// No description provided for @privacyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy note'**
+  String get privacyTitle;
+
+  /// No description provided for @privacyIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'FlowLingo is built to keep draft handling minimal during internal testing. Review this before enabling the keyboard.'**
+  String get privacyIntro;
+
+  /// No description provided for @privacyCardOneTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What gets sent'**
+  String get privacyCardOneTitle;
+
+  /// No description provided for @privacyCardOneBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The text currently being drafted is sent to Google Cloud Translation only to build the live preview and apply result.'**
+  String get privacyCardOneBody;
+
+  /// No description provided for @privacyCardTwoTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What stays local'**
+  String get privacyCardTwoTitle;
+
+  /// No description provided for @privacyCardTwoBody.
+  ///
+  /// In en, this message translates to:
+  /// **'FlowLingo stores language pair and keyboard feedback preferences, but it does not save typed drafts or translated previews.'**
+  String get privacyCardTwoBody;
+
+  /// No description provided for @privacyCardThreeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How to test safely'**
+  String get privacyCardThreeTitle;
+
+  /// No description provided for @privacyCardThreeBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Use sample or low-risk text during testing. Avoid sensitive personal, financial, health, or account information.'**
+  String get privacyCardThreeBody;
 
   /// No description provided for @targetLanguageLabel.
   ///

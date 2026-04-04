@@ -2,7 +2,8 @@
     <application
         android:label="FlowLingo"
         android:name=".AppApplication"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round">
         <service
             android:name=".AppImeService"
             android:enabled="true"

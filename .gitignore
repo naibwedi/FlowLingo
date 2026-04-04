@@ -46,5 +46,6 @@ app.*.map.json
 /android/app/release
 /android/build/
 android/local.properties
+android/key.properties
 lib/config/secrets.dart
 *.jks

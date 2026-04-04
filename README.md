@@ -8,6 +8,7 @@ The current build is focused on MVP keyboard infrastructure and a live translati
 - persisted language-pair selection
 - Google Cloud Translation preview over a native/Flutter bridge
 - polished keyboard layout with shift, caps lock, symbols, repeat backspace, and action-key icons
+- tester-facing privacy note and internal-testing docs
 
 ## Stack
 
@@ -32,7 +33,7 @@ Implemented:
 Not implemented yet:
 - premium entitlements and paywall flow
 - offline translation
-- Play Store release assets and policy docs
+- Play Store release assets and public policy hosting
 
 ## Project Structure
 
@@ -114,6 +115,35 @@ C:\flutter\bin\flutter.bat run
 4. Enable `Translation Keyboard`.
 5. Switch to it in any text field.
 
+### Read the privacy note
+
+Before enabling the keyboard, testers should review:
+
+- [Privacy policy](./PRIVACY_POLICY.md)
+- [Internal testing guide](./docs/INTERNAL_TESTING.md)
+
+The keyboard sends the current in-memory draft to Google Cloud Translation for live preview. FlowLingo does not store typed text locally.
+
+## Internal Testing Builds
+
+Use `android/key.properties.example` as the template for a local signing file:
+
+1. Copy it to `android/key.properties`
+2. Fill in your real keystore details
+3. Keep both the keystore and `android/key.properties` outside version control
+
+If `android/key.properties` is missing, release builds fall back to debug signing so local internal testing can still proceed.
+
+Build commands:
+
+```powershell
+C:\flutter\bin\flutter.bat analyze
+C:\flutter\bin\flutter.bat test
+cmd /c "set JAVA_HOME=C:\Program Files\Android\Android Studio\jbr&& cd android && gradlew.bat app:assembleRelease --console=plain"
+C:\flutter\bin\flutter.bat build apk --release
+C:\flutter\bin\flutter.bat build appbundle --release
+```
+
 ## Verification
 
 Static checks used during development:
@@ -122,18 +152,19 @@ Static checks used during development:
 C:\flutter\bin\flutter.bat analyze
 C:\flutter\bin\flutter.bat test
 cmd /c "set JAVA_HOME=C:\Program Files\Android\Android Studio\jbr&& cd android && gradlew.bat app:assembleDebug --console=plain"
+cmd /c "set JAVA_HOME=C:\Program Files\Android\Android Studio\jbr&& cd android && gradlew.bat app:assembleRelease --console=plain"
+C:\flutter\bin\flutter.bat build apk --release
+C:\flutter\bin\flutter.bat build appbundle --release
 ```
 
 ## Secrets
 
 Do not commit:
 - `android/local.properties`
+- `android/key.properties`
 - `lib/config/secrets.dart`
 - signing keys / `*.jks`
 
 ## Next Major Step
 
-Add subscription gating and provider expansion while preserving:
-- the native IME flow
-- the debounced live preview behavior
-- the privacy rule that user text is never persisted locally
+Run internal Android testing, collect onboarding and keyboard QA feedback, and fix release blockers before monetization work.

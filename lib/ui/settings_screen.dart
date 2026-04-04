@@ -3,6 +3,7 @@ import 'package:flowlingo/l10n/generated/app_localizations.dart';
 import 'package:flowlingo/models/language_pair.dart';
 import 'package:flowlingo/services/app_settings_service.dart';
 import 'package:flowlingo/ui/language_picker.dart';
+import 'package:flowlingo/ui/privacy_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -86,11 +87,36 @@ class _SettingsScreenState extends State<SettingsScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
+                  _SetupBullet(text: localizations.settingsKeyboardStepOne),
+                  const SizedBox(height: 10),
+                  _SetupBullet(text: localizations.settingsKeyboardStepTwo),
+                  const SizedBox(height: 10),
+                  _SetupBullet(text: localizations.settingsKeyboardStepThree),
+                  const SizedBox(height: 14),
                   Text(
                     localizations.settingsKeyboardFootnote,
                     style: theme.textTheme.bodyMedium,
                   ),
                 ],
+              ),
+            ),
+            const SizedBox(height: 18),
+            _SettingsPanel(
+              eyebrow: localizations.settingsPrivacyEyebrow,
+              title: localizations.settingsPrivacyTitle,
+              body: localizations.settingsPrivacyBody,
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: OutlinedButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute<void>(
+                        builder: (_) => const PrivacyScreen(),
+                      ),
+                    );
+                  },
+                  child: Text(localizations.settingsPrivacyButton),
+                ),
               ),
             ),
             const SizedBox(height: 18),
@@ -134,6 +160,36 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _SetupBullet extends StatelessWidget {
+  const _SetupBullet({required this.text});
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Container(
+          width: 8,
+          height: 8,
+          margin: const EdgeInsets.only(top: 6),
+          decoration: const BoxDecoration(
+            color: Color(0xFF6A583E),
+            shape: BoxShape.circle,
+          ),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Text(text, style: theme.textTheme.bodyMedium),
+        ),
+      ],
     );
   }
 }
