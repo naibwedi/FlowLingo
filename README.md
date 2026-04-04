@@ -2,100 +2,42 @@
 
 ![FlowLingo app preview](./image.png)
 
-FlowLingo is an Android translation keyboard built with a native Kotlin IME and a Flutter app shell. It lets users type in any Android text field, preview a translated draft above the keyboard, and apply that draft before sending.
+FlowLingo is an Android translation keyboard that lets users draft translated messages directly inside any text field. It combines a native Kotlin IME for keyboard behavior with a Flutter app shell for onboarding, privacy guidance, and settings.
 
-## Highlights
+## What It Does
 
-- Translate drafts inside Android text fields
-- Preview the translated version before sending anything
-- Keep typing uninterrupted with silent fallback when translation is unavailable
-- Persist language-pair and keyboard feedback settings locally
-- Keep typed text out of local storage and logs
+- translates drafts inside Android text fields
+- shows a live translated preview after a short pause
+- lets the user apply the translated draft manually
+- keeps typing responsive even when translation is unavailable
 
 ## Current MVP
 
-Implemented:
+- native Android keyboard built with `InputMethodService`
+- Flutter onboarding, settings, and privacy screens
+- live translation preview through Google Cloud Translation
+- language-pair persistence
+- keyboard support for shift, caps lock, symbols, and repeat backspace
 
-- native Android `InputMethodService` keyboard
-- Flutter onboarding, privacy, and settings screens
-- persisted language-pair selection
-- live Google Cloud Translation preview over a native/Flutter bridge
-- polished keyboard layout with shift, caps lock, symbols, repeat backspace, and action-key icons
-- internal-testing and privacy documentation for pre-release QA
+## Privacy
 
-Not implemented yet:
+FlowLingo does not store typed text in local files, app settings, or logs. The active draft exists only in memory during the current keyboard session. Translation requests are sent only to generate the preview shown to the user.
 
-- premium entitlements and paywall flow
-- offline translation
-- Play Store release assets and public policy hosting
-
-## Stack
-
-- Android keyboard: Kotlin + `InputMethodService`
-- App UI: Flutter
-- Native bridge: `MethodChannel`
-- Local settings: Hive + shared preferences
-- Translation backend: Google Cloud Translation API
-- Subscriptions: `purchases_flutter` / RevenueCat
-
-## Project Structure
-
-```text
-flowlingo/
-├── android/app/src/main/kotlin/com/flowlingo/
-│   ├── AppApplication.kt
-│   ├── AppImeService.kt
-│   ├── MainActivity.kt
-│   └── TranslationChannel.kt
-├── android/app/src/main/res/
-│   ├── layout/keyboard_view.xml
-│   ├── values/
-│   ├── drawable/
-│   └── xml/method.xml
-├── docs/
-├── lib/
-│   ├── main.dart
-│   ├── models/
-│   ├── services/
-│   └── ui/
-├── l10n/
-├── test/
-└── README.md
-```
-
-## How It Works
-
-1. The user types inside any Android app.
-2. `AppImeService` captures the current in-memory draft.
-3. After a 400 ms pause, the IME sends the draft to Flutter through `com.app.translation`.
-4. Flutter calls Google Cloud Translation and returns the translated result.
-5. The native preview panel shows the candidate above the keyboard.
-6. The user taps the apply action to replace the typed draft with the preview.
-
-Important privacy rule:
-
-- typed text is not stored in Hive, files, or logs
-- current input only lives in memory during the active keyboard session
+Read the full policy in [PRIVACY_POLICY.md](./PRIVACY_POLICY.md).
 
 ## Getting Started
 
 ### Requirements
 
-- Flutter SDK installed
+- Flutter SDK
 - Android Studio with Android SDK
 - JDK 17+
 - Android emulator or physical Android device
 - Google Cloud project with Translation API enabled
 
-### Install dependencies
+### Configure the API key
 
-```powershell
-C:\flutter\bin\flutter.bat pub get
-```
-
-### Configure translation secrets
-
-Create `lib/config/secrets.dart` with a valid Google Cloud Translation API key:
+Create `lib/config/secrets.dart` locally:
 
 ```dart
 class Secrets {
@@ -103,6 +45,12 @@ class Secrets {
 
   static const String googleTranslateApiKey = 'YOUR_GOOGLE_TRANSLATE_API_KEY';
 }
+```
+
+### Install dependencies
+
+```powershell
+C:\flutter\bin\flutter.bat pub get
 ```
 
 ### Run the app
@@ -113,57 +61,18 @@ C:\flutter\bin\flutter.bat run
 
 ### Enable the keyboard
 
-1. Install and open the app on an Android emulator or phone.
-2. Open Android Settings.
-3. Go to keyboard or input settings.
-4. Enable `Translation Keyboard`.
-5. Switch to it in any text field.
+1. Open the app on an Android device or emulator.
+2. Go to Android keyboard or input settings.
+3. Enable `Translation Keyboard`.
+4. Switch to it inside any text field.
 
-### Read the privacy and testing docs
+## Internal Testing
 
-Before enabling the keyboard, testers should review:
-
-- [Privacy policy](./PRIVACY_POLICY.md)
 - [Product overview](./docs/PRODUCT_OVERVIEW.md)
 - [Internal testing guide](./docs/INTERNAL_TESTING.md)
 - [QA bug template](./docs/QA_BUG_TEMPLATE.md)
 
-The keyboard sends the current in-memory draft to Google Cloud Translation for live preview. FlowLingo does not store typed text locally.
-
-## Internal Testing Builds
-
-Use `android/key.properties.example` as the template for a local signing file:
-
-1. Copy it to `android/key.properties`
-2. Fill in your real keystore details
-3. Keep both the keystore and `android/key.properties` outside version control
-
-If `android/key.properties` is missing, release builds fall back to debug signing so local internal testing can still proceed.
-
-Build commands:
-
-```powershell
-C:\flutter\bin\flutter.bat analyze
-C:\flutter\bin\flutter.bat test
-cmd /c "set JAVA_HOME=C:\Program Files\Android\Android Studio\jbr&& cd android && gradlew.bat app:assembleRelease --console=plain"
-C:\flutter\bin\flutter.bat build apk --release
-C:\flutter\bin\flutter.bat build appbundle --release
-```
-
-## Verification
-
-Static checks used during development:
-
-```powershell
-C:\flutter\bin\flutter.bat analyze
-C:\flutter\bin\flutter.bat test
-cmd /c "set JAVA_HOME=C:\Program Files\Android\Android Studio\jbr&& cd android && gradlew.bat app:assembleDebug --console=plain"
-cmd /c "set JAVA_HOME=C:\Program Files\Android\Android Studio\jbr&& cd android && gradlew.bat app:assembleRelease --console=plain"
-C:\flutter\bin\flutter.bat build apk --release
-C:\flutter\bin\flutter.bat build appbundle --release
-```
-
-## Secrets
+## Notes
 
 Do not commit:
 
@@ -171,13 +80,3 @@ Do not commit:
 - `android/key.properties`
 - `lib/config/secrets.dart`
 - signing keys / `*.jks`
-
-## Next Step
-
-Run internal Android testing, collect onboarding and keyboard QA feedback, and fix release blockers before monetization work.
-
-For the QA pass, use:
-
-- [Product overview](./docs/PRODUCT_OVERVIEW.md)
-- [Internal testing guide](./docs/INTERNAL_TESTING.md)
-- [QA bug template](./docs/QA_BUG_TEMPLATE.md)
